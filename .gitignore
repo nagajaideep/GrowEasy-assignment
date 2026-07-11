@@ -1,0 +1,12 @@
+node_modules
+dist
+.next
+out
+.env
+.env.local
+*.log
+.DS_Store
+build.log
+tsc.log
+tsc-exit.txt
+exit.txt

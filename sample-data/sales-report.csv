@@ -1,0 +1,6 @@
+Lead Name,Primary Email,Alternate Email,Mobile,Org,Location,Status,Notes,Source
+John Doe,john.doe@example.com,,9876543210,GrowEasy,"Mumbai, Maharashtra",Follow up next week,Asked to reschedule demo,leads_on_demand
+Sarah Johnson,sarah.johnson@example.com,sarah.alt@example.com,9876543211,Tech Solutions,"Bangalore, Karnataka",Could not reach,Phone kept ringing,leads_on_demand
+Rajesh Patel,rajesh.patel@example.com,,9876543212,Startup Inc,"Delhi, Delhi",Junk lead,Wrong number,
+Priya Singh,priya.singh@example.com,,9876543213,Enterprise Corp,"Pune, Maharashtra",Won,Onboarding in progress,eden_park
+NoContact Row,,,,Ghost Inc,Nowhere,unknown,should be skipped,

@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+      - CORS_ORIGIN=http://localhost:3000
+      # Provide a key to use a real model; omit to run in mock mode.
+      - AI_PROVIDER=${AI_PROVIDER:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - AI_BATCH_SIZE=${AI_BATCH_SIZE:-20}
+      - AI_MAX_RETRIES=${AI_MAX_RETRIES:-3}
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
+    depends_on:
+      - backend
