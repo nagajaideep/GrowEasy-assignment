@@ -181,10 +181,32 @@ GEMINI_API_KEY=your_key docker compose up --build
 
 ## Deployment
 
-- **Frontend (Vercel):** set root to `frontend/`, add env `NEXT_PUBLIC_API_BASE_URL` =
-  your deployed backend URL.
-- **Backend (Render/Railway):** root `backend/`, build `npm install && npm run build`,
-  start `npm start`, set `CORS_ORIGIN` to your frontend URL and add your AI key.
+### Option A — One click, both services (Render Blueprint) ✅ easiest
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nagajaideep/GrowEasy-assignment)
+
+The repo ships a [`render.yaml`](./render.yaml) blueprint that provisions **both** the
+backend and frontend and **auto-wires** the frontend to the backend URL — no manual env
+setup required.
+
+1. Click the button above (or go to Render → **Blueprints** → **New Blueprint Instance**
+   and pick this repo).
+2. Click **Apply**. Render builds `groweasy-backend` and `groweasy-frontend`.
+3. Open the `groweasy-frontend` URL — that's your hosted app.
+4. (Optional) To use a real model instead of mock mode, open `groweasy-backend` →
+   **Environment** → add `GEMINI_API_KEY` or `OPENAI_API_KEY`, then redeploy.
+
+> If Render doesn't auto-fill `NEXT_PUBLIC_API_BASE_URL` on the frontend service, set it
+> manually to the backend's URL (e.g. `https://groweasy-backend.onrender.com`) and redeploy.
+
+### Option B — Vercel (frontend) + Render (backend)
+
+- **Backend (Render/Railway):** root directory `backend/`, build
+  `npm install && npm run build`, start `npm start`. `CORS_ORIGIN` defaults to `*`; add an
+  AI key if desired.
+- **Frontend (Vercel):** import the repo, set **Root Directory** to `frontend/`, and add
+  env `NEXT_PUBLIC_API_BASE_URL` = your deployed backend URL. A [`vercel.json`](./frontend/vercel.json)
+  is included so the framework/build settings are detected automatically.
 
 ---
 

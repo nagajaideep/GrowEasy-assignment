@@ -1,0 +1,54 @@
+# Render Blueprint — deploys BOTH the backend and frontend in one click.
+# https://render.com/docs/blueprint-spec
+#
+# Usage:
+#   1. Push this repo to GitHub (done).
+#   2. Go to https://dashboard.render.com/blueprints -> "New Blueprint Instance"
+#      and pick this repo (or use the "Deploy to Render" button in the README).
+#   3. Render reads this file and creates both services automatically.
+#
+# The frontend's NEXT_PUBLIC_API_BASE_URL is auto-filled from the backend's
+# public URL (RENDER_EXTERNAL_URL), so no manual wiring is needed.
+services:
+  - type: web
+    name: groweasy-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        value: "*"
+      # Optional — add a key in the Render dashboard to use a real model.
+      # Leave unset to run in the built-in mock (heuristic) mode.
+      - key: AI_PROVIDER
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: AI_BATCH_SIZE
+        value: "20"
+      - key: AI_MAX_RETRIES
+        value: "3"
+
+  - type: web
+    name: groweasy-frontend
+    runtime: node
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Auto-wired to the backend's public https URL.
+      - key: NEXT_PUBLIC_API_BASE_URL
+        fromService:
+          type: web
+          name: groweasy-backend
+          envVarKey: RENDER_EXTERNAL_URL
