@@ -11,7 +11,7 @@ export class GeminiProvider implements AiProviderClient {
   readonly name = `gemini:${env.gemini.model}`;
 
   async extract(rows: RawRecord[]): Promise<AiExtractionItem[]> {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${env.gemini.model}:generateContent?key=${env.gemini.apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${env.gemini.model}:generateContent`;
 
     const body = {
       systemInstruction: {
@@ -32,7 +32,10 @@ export class GeminiProvider implements AiProviderClient {
 
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-goog-api-key': env.gemini.apiKey,
+      },
       body: JSON.stringify(body),
     });
 
