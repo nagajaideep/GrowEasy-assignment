@@ -16,6 +16,19 @@ function formatDate(value: string): string {
   if (!value) return '—';
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return value;
+  // Detect whether the source value carried a time component. Date-only values
+  // (e.g. "2026-05-15") are parsed as UTC midnight, so rendering them in local
+  // time would fabricate a spurious clock time (e.g. "05:30 AM" in IST). For
+  // those, show only the date (formatted in UTC to avoid any day shift).
+  const hasTime = /\d{1,2}:\d{2}/.test(value) || /T\d{2}/.test(value);
+  if (!hasTime) {
+    return d.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+  }
   return d.toLocaleString(undefined, {
     year: 'numeric',
     month: 'short',
